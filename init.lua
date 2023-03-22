@@ -42,6 +42,12 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- set hybrid line numbers
+-- :set number relativenumber
+-- :set nu rnu
+vim.wo.relativenumber = true
+vim.wo.nu = true
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -65,6 +71,8 @@ vim.opt.rtp:prepend(lazypath)
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
+  -- VimBeGood
+   'ThePrimeagen/vim-be-good',
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -90,7 +98,23 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
-
+-- NERDTree
+  {
+    'preservim/nerdtree',
+    cmd = {'NERDTreeToggle', 'NERDTreeFind'},
+    config = function()
+      vim.g.NERDTreeWinPos = 'left'
+      vim.g.NERDTreeWinSize = 30
+      vim.g.NERDTreeIgnore = {'.git', 'node_modules', 'vendor'}
+      vim.g.NERDTreeShowHidden = 1
+      vim.g.NERDTreeAutoDeleteBuffer = 1
+      vim.g.NERDTreeMinimalUI = 1
+    end,
+    setup = function()
+    -- Map NERDTree toggle to Ctrl-n
+      vim.api.nvim_set_keymap('n', '<C-n>', ':NERDTreeToggle<CR>', {noremap = true})
+    end
+  },
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
